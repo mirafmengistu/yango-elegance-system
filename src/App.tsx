@@ -3,6 +3,7 @@ import { AuthProvider } from './contexts/AuthContext'
 import ProtectedRoute from './components/ProtectedRoute'
 import LoginPage from './pages/LoginPage'
 import DashboardPage from './pages/DashboardPage'
+import DriverUploadPage from './pages/DriverUploadPage'
 
 function App() {
   return (
@@ -10,6 +11,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/upload/:driverId" element={<DriverUploadPage />} />
           <Route
             path="/"
             element={

@@ -7,6 +7,7 @@ import UploadExcelDialog from '../components/UploadExcelDialog'
 import DriverTable from '../components/DriverTable'
 import { driverService } from '../services/driverService'
 import type { Driver } from '../types/driver'
+import DocumentViewer from '../components/DocumentViewer'
 import { Search, RefreshCw, Users } from 'lucide-react'
 
 export default function DashboardPage() {
@@ -16,6 +17,8 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
   const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('all')
+  const [selectedDriver, setSelectedDriver] = useState<Driver | null>(null)
+  const [docViewerOpen, setDocViewerOpen] = useState(false)
 
   const loadDrivers = async () => {
     setLoading(true)
@@ -62,9 +65,9 @@ export default function DashboardPage() {
   }
 
   const handleViewDriver = (driver: Driver) => {
-    // We'll implement driver detail view in next step
-    alert(`Viewing ${driver.name || driver.phone}\nDocument upload feature coming soon!`)
-  }
+    setSelectedDriver(driver)
+    setDocViewerOpen(true)
+ }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -201,6 +204,15 @@ export default function DashboardPage() {
             )}
           </CardContent>
         </Card>
+        {selectedDriver && (
+            <DocumentViewer
+                driverId={selectedDriver.id}
+                driverName={selectedDriver.name || selectedDriver.phone}
+                open={docViewerOpen}
+                onOpenChange={setDocViewerOpen}
+                onDocumentUpdate={loadDrivers}
+            />
+        )}
       </main>
     </div>
   )
